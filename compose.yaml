@@ -1,0 +1,31 @@
+services:
+  db:
+    container_name: security-postgresql
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - security-network
+    restart: always
+    environment:
+      POSTGRES_DB: security
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: security-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: security@root.com
+      PGADMIN_DEFAULT_PASSWORD: security
+    ports:
+      - "8081:80"
+    networks:
+      - security-network
+    restart: always
+
+networks:
+  security-network:
+    driver: bridge
